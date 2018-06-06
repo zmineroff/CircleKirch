@@ -49,14 +49,14 @@ public class InputManager : MonoBehaviour {
 
 					// Do something with the object that was hit by the raycast.
 					if (dragTarget != terminalHit) {
-						//if legal
+						// if legal
 						Debug.Log("Good connection");
 						Wire newWire = GameObject.Instantiate(wirePrefab).GetComponent<Wire> ();
 						newWire.terminalA = dragTarget;
 						newWire.terminalB = terminalHit;
 
 					} else {
-						//illegal connection
+						// illegal connection
 						Debug.Log("Illegal connection");
 					}
 					dragging = false;
@@ -69,7 +69,7 @@ public class InputManager : MonoBehaviour {
 }
 
 
-//functions
+// functions
 // 1 function per mode, so you don't make one giant update function
 // mode: level editor: add elements, move elements
 // mode: play mode: click on cards, implement rule choice, implement rule execution

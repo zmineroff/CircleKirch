@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CircuitElement : MonoBehaviour {
 
+	// maybe make these enums with known, unknown, NA
 	public bool Voltage;
 	public bool Current;
 	public bool Resistance;
@@ -13,7 +14,6 @@ public class CircuitElement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		terminals.AddRange(GetComponentsInChildren<Terminal> ());
-
 	}
 	
 	// Update is called once per frame
