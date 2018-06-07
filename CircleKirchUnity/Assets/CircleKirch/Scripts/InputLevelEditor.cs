@@ -39,7 +39,8 @@ public class InputLevelEditor : MonoBehaviour {
 				Terminal terminalHit = objectHit.GetComponent<Terminal>();
 
 				// Do something with the object that was hit by the raycast.
-				if (dragTarget != terminalHit) {
+				// if (dragTarget != terminalHit) {
+				if (dragTarget.transform.parent != terminalHit.transform.parent) {
 					// legal connection
 					Debug.Log("Good connection");
 					Wire newWire = GameObject.Instantiate(wirePrefab).GetComponent<Wire> ();
