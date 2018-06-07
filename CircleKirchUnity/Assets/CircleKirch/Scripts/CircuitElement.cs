@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CircuitElement : MonoBehaviour {
 
-	// maybe make these enums with known, unknown, NA
-	public bool Voltage;
-	public bool Current;
-	public bool Resistance;
+	public enum Voltage {known, unknwon, NA};
+	public enum Current {known, unknwon, NA};
+	public enum Resistance {known, unknwon, NA};
 
 	public List<Terminal> terminals = new List<Terminal> ();
 
