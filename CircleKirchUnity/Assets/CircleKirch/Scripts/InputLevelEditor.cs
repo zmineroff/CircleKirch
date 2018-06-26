@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputLevelEditor : MonoBehaviour {
 
-	public bool dragging = false;
+	public bool draggingWire = false;
 	public Terminal dragTarget;
 
 	public GameObject wirePrefab;
@@ -25,13 +25,13 @@ public class InputLevelEditor : MonoBehaviour {
 
 				// Do something with the object that was hit by the raycast.
 				if (terminalHit != null) {
-					dragging = true;
+					draggingWire = true;
 					dragTarget = terminalHit;
 				}
 			}
 		}
 
-		if (Input.GetMouseButtonUp(0)) {
+		if (draggingWire && Input.GetMouseButtonUp(0)) {
 			RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if (hit.collider != null) {
 				Transform objectHit = hit.transform;
@@ -50,11 +50,11 @@ public class InputLevelEditor : MonoBehaviour {
 					// illegal connection
 					Debug.Log("Illegal connection");
 				}
-				dragging = false;
 			} else {
 				// no connection
 				Debug.Log("No connection");
 			}
+			draggingWire = false;
 		}
 	}
 }
