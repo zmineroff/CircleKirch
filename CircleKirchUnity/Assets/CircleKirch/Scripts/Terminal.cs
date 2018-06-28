@@ -5,6 +5,10 @@ using UnityEngine;
 public class Terminal : MonoBehaviour {
 
 	bool isConnected;
+	//list of wires
+	//have addWire function
+
+	//circuitElement; use this to help go through graph
 
 	// Use this for initialization
 	void Start () {
