@@ -6,7 +6,6 @@ public class InputLevelEditor : MonoBehaviour {
 
 	public bool draggingWire = false;
 	public Terminal dragTarget;
-
 	public GameObject wirePrefab;
 
 	// Use this for initialization
@@ -22,8 +21,6 @@ public class InputLevelEditor : MonoBehaviour {
 				Transform objectHit = hit.transform;
 				
 				Terminal terminalHit = objectHit.GetComponent<Terminal>();
-
-				// Do something with the object that was hit by the raycast.
 				if (terminalHit != null) {
 					draggingWire = true;
 					dragTarget = terminalHit;
