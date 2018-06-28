@@ -20,14 +20,22 @@ public class InputLevelEditor : MonoBehaviour {
 			if (hit.collider != null) {
 				Transform objectHit = hit.transform;
 				
+				// Clicked terminal
 				Terminal terminalHit = objectHit.GetComponent<Terminal>();
 				if (terminalHit != null) {
 					draggingWire = true;
 					dragTarget = terminalHit;
 				}
+
+				// Clicked rating
+				Rating ratingHit = objectHit.GetComponent<Rating>();
+				if (ratingHit != null) {
+					ratingHit.known = !ratingHit.known;
+				}
 			}
 		}
 
+		// Dragging wire
 		if (draggingWire && Input.GetMouseButtonUp(0)) {
 			RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if (hit.collider != null) {
