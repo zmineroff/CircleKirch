@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class Terminal : MonoBehaviour {
 
-	bool isConnected;
-	public List<Wire> wires = new List<Wire>(); //add to it whenever wire gets made
-	//list of wires
-	//have addWire function
-
-	public CircuitElement circuitElement; //use this to help go through graph
+	public List<Wire> wires = new List<Wire>();
+	public CircuitElement circuitElement;
 
 	// Use this for initialization
 	void Start () {

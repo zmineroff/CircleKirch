@@ -51,6 +51,10 @@ public class InputLevelEditor : MonoBehaviour {
 					newWire.terminalA = dragTarget;
 					newWire.terminalB = terminalHit;
 
+					// add newWire to terminal wires list
+					dragTarget.wires.Add(newWire);
+					terminalHit.wires.Add(newWire);
+
 				} else {
 					// illegal connection
 					Debug.Log("Illegal connection");
