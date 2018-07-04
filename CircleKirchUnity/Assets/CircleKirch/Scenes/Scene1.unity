@@ -1165,6 +1165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
+  levelEditorCanvas: {fileID: 718129783}
+  playCanvas: {fileID: 0}
 --- !u!4 &1499178428
 Transform:
   m_ObjectHideFlags: 0
