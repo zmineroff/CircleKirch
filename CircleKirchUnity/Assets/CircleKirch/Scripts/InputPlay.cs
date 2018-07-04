@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InputPlay : MonoBehaviour {
 
-	// public Rating clickedRating;
-
 	// Use this for initialization
 	void Start () {
 		

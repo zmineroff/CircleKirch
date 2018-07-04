@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-	public enum Mode {
-		LevelEditor, Play
-	}
+	public enum Mode {LevelEditor, Play}
 	public Mode mode = Mode.LevelEditor;
 
 

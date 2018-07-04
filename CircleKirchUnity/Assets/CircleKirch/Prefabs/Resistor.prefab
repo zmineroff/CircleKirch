@@ -416,7 +416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ffc059a41425448bd089ee96c5de99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ratingType: 1
   known: 0
+  circuitElement: {fileID: 0}
   knownSprite: {fileID: 21300000, guid: 67d9c09b82442da4c86131fd2649aa65, type: 3}
   unknownSprite: {fileID: 21300000, guid: ada27f5b89dccf34ea5cab94bd4d0dfc, type: 3}
 --- !u!114 &114428463498010058
@@ -430,6 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cca78dba0fe3c8429c76f477a6931c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wires: []
+  circuitElement: {fileID: 0}
 --- !u!114 &114577436019558174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -441,7 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ffc059a41425448bd089ee96c5de99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ratingType: 0
   known: 0
+  circuitElement: {fileID: 0}
   knownSprite: {fileID: 21300000, guid: d4f1eaf399e318b49a16cb218d20c2d7, type: 3}
   unknownSprite: {fileID: 21300000, guid: ae8ad7c42ff7b744fa0e24c010736c52, type: 3}
 --- !u!114 &114723094938981674
@@ -455,6 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cca78dba0fe3c8429c76f477a6931c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wires: []
+  circuitElement: {fileID: 0}
 --- !u!114 &114741675217739428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,7 +474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ffc059a41425448bd089ee96c5de99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ratingType: 2
   known: 0
+  circuitElement: {fileID: 0}
   knownSprite: {fileID: 21300000, guid: 7202ffaeb2ea9ef4b9ac08ec369ccac1, type: 3}
   unknownSprite: {fileID: 21300000, guid: b6aa477037f2ed640b776789f8aa39bf, type: 3}
 --- !u!212 &212081736953434978
