@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Rating : MonoBehaviour {
 
-	public enum RatingType {Voltage, Resistance, Current};
+	public enum RatingType {Voltage, Resistance, Current}
 	public RatingType ratingType;
 	public CircuitElement circuitElement;
 	public bool known = false;
+	public bool isTarget = false;
+	public bool isArgument = false;
 
 	public Sprite knownSprite;
 	public Sprite unknownSprite;

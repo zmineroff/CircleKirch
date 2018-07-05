@@ -22,8 +22,7 @@ public class CircuitElement : MonoBehaviour {
 		foreach(Rating r in ratings) {
 			r.circuitElement = this;
 			
-			switch (r.ratingType)
-			{
+			switch (r.ratingType) {
 				case Rating.RatingType.Voltage:
 					voltage = r;
 					break;
