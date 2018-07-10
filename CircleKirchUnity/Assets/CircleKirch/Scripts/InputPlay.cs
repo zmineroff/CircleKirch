@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class InputPlay : MonoBehaviour {
 
-    // Later: use this to change what order player can click on components
-    // E.g., for RuleTargetArg, only rules are active at first. Then, target becomes active
-    // public enum RuleExecutionMode {RuleTargetArg, TargetRuleArg}
-    // public RuleExecutionMode ruleExecMode = RuleExecutionMode.RuleTargetArg;
-
     public enum InteractionStep { SelectRule, SelectTarget, SelectArguments, SearchForRule, SearchForArguments };
     public List<InteractionStep> interactionSteps = new List<InteractionStep>();
-    private int currentStep = 0;
-
-    // public enum RuleStage {SelectRule, SelectTarget, SelectArguments}
-    // public RuleStage ruleStage;
 
     public enum Rule { None = 0, Ohm = 1, KVL = 2, KCL = 3 }
     public Rule rule;
     public Rating ruleTarget;
     public List<Rating> ruleArguments = new List<Rating>();
 
-    public bool doneSelectingArguments = false;
+    private bool doneSelectingArguments = false;
+
+    private int currentStep = 0;
 
 
     // Use this for initialization
@@ -44,52 +37,55 @@ public class InputPlay : MonoBehaviour {
 
 
     IEnumerator ExecuteRule() {
-        while (currentStep < interactionSteps.Count) {
-            switch (interactionSteps[currentStep]) {
-                case InteractionStep.SelectRule:
-                    Debug.Log("Selecting a rule");
-                    yield return SelectRule();
+        bool mainUnknownFound = false;
+        while (!mainUnknownFound) {
+            while (currentStep < interactionSteps.Count) {
+                switch (interactionSteps[currentStep]) {
+                    case InteractionStep.SelectRule:
+                        Debug.Log("Selecting a rule");
+                        yield return SelectRule();
+                        break;
+                    case InteractionStep.SelectTarget:
+                        Debug.Log("Selecting a target");
+                        yield return SelectTarget();
+                        break;
+                    case InteractionStep.SelectArguments:
+                        Debug.Log("Selecting arguments");
+                        yield return SelectArguments();
+                        break;
+                    case InteractionStep.SearchForRule:
+                        yield return SearchForRule();
+                        break;
+                    case InteractionStep.SearchForArguments:
+                        yield return SearchForArguments();
+                        break;
+                    default:
+                        Debug.Log("unreognized interaction step mode");
+                        break;
+                }
+
+                ++currentStep;
+            }
+
+            switch (rule) {
+                case Rule.Ohm:
+                    OhmsLaw(ruleTarget, ruleArguments);
                     break;
-                case InteractionStep.SelectTarget:
-                    Debug.Log("Selecting a target");
-                    yield return SelectTarget();
+                case Rule.KVL:
+                    KVL();
                     break;
-                case InteractionStep.SelectArguments:
-                    Debug.Log("Selecting arguments");
-                    yield return SelectArguments();
-                    break;
-                case InteractionStep.SearchForRule:
-                    yield return SearchForRule();
-                    break;
-                case InteractionStep.SearchForArguments:
-                    yield return SearchForArguments();
+                case Rule.KCL:
+                    KCL();
                     break;
                 default:
-                    Debug.Log("unreognized interaction step mode");
+                    Debug.Log("unreognized rule");
                     break;
             }
 
-            ++currentStep;
+            cleanUp();
+
+            yield return null;
         }
-
-        switch (rule) {
-            case Rule.Ohm:
-                OhmsLaw(ruleTarget, ruleArguments);
-                break;
-            case Rule.KVL:
-                KVL();
-                break;
-            case Rule.KCL:
-                KCL();
-                break;
-            default:
-                Debug.Log("unreognized rule");
-                break;
-        }
-
-        cleanUp();
-
-        yield break;
     }
 
     IEnumerator SelectRule() {
@@ -208,6 +204,7 @@ public class InputPlay : MonoBehaviour {
             }
         }
 
+        Debug.Log("Rating revealed!");
         ruleTarget.known = true;
     }
 
