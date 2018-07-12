@@ -10,7 +10,7 @@ public class InputPlay : MonoBehaviour {
     public enum Rule { None = 0, Ohm = 1, KVL = 2, KCL = 3 }
     public Rule rule;
     public Rating ruleTarget;
-    public List<Rating> ruleArguments = new List<Rating>();
+    public List<Rating> ratingArguments = new List<Rating>();
 
     private bool doneSelectingArguments = false;
 
@@ -69,13 +69,13 @@ public class InputPlay : MonoBehaviour {
 
             switch (rule) {
                 case Rule.Ohm:
-                    OhmsLaw(ruleTarget, ruleArguments);
+                    OhmsLaw(ruleTarget, ratingArguments);
                     break;
                 case Rule.KVL:
-                    KVL();
+                    KVL(ruleTarget, ratingArguments);
                     break;
                 case Rule.KCL:
-                    KCL();
+                    KCL(ruleTarget, ratingArguments);
                     break;
                 default:
                     Debug.Log("unreognized rule");
@@ -130,7 +130,7 @@ public class InputPlay : MonoBehaviour {
 
 
     IEnumerator SelectArguments() {
-        // List<Rating> ruleArguments = new List<Rating>();
+        // List<Rating> ratingArguments = new List<Rating>();
 
         while (!doneSelectingArguments) {
             if (Input.GetMouseButtonDown(0)) {
@@ -144,11 +144,11 @@ public class InputPlay : MonoBehaviour {
                             Debug.Log("Target cannot be argument");
                         } else {
                             if (ratingHit.isArgument) {
-                                ruleArguments.Remove(ratingHit);
+                                ratingArguments.Remove(ratingHit);
                                 ratingHit.isArgument = false;
                                 Debug.Log("Argument Unset");
                             } else {
-                                ruleArguments.Add(ratingHit);
+                                ratingArguments.Add(ratingHit);
                                 ratingHit.isArgument = true;
                                 Debug.Log("Argument Set");
                             }
@@ -185,14 +185,14 @@ public class InputPlay : MonoBehaviour {
 
 
     // These should take in actual arguments
-    void OhmsLaw(Rating ruleTarget, List<Rating> ruleArguments) {
+    void OhmsLaw(Rating ruleTarget, List<Rating> ratingArguments) {
         Debug.Log("Executing Ohms");
-        if (ruleArguments.Count != 2) {
+        if (ratingArguments.Count != 2) {
             Debug.Log("Wrong number of arguments. Ohm should have exactly 2");
             return;
         }
 
-        foreach (Rating r in ruleArguments) {
+        foreach (Rating r in ratingArguments) {
             if (r.circuitElement != ruleTarget.circuitElement) {
                 Debug.Log("Args and target must have same parent");
                 return;
@@ -208,11 +208,17 @@ public class InputPlay : MonoBehaviour {
         ruleTarget.known = true;
     }
 
-    void KVL() {
+    void KVL(Rating ruleTarget, List<Rating> ratingArguments) {
         Debug.Log("Executing KVL");
+
+        // Check if loop is valid
+        // Starts with target
+        // There is a wire connecting all
+        // Should wires be arguments too?
+
     }
 
-    void KCL() {
+    void KCL(Rating ruleTarget, List<Rating> ratingArguments) {
         Debug.Log("Executing KCL");
     }
 
@@ -222,10 +228,10 @@ public class InputPlay : MonoBehaviour {
 
     void cleanUp() {
         Debug.Log("Cleaning up");
-        foreach (Rating r in ruleArguments) {
+        foreach (Rating r in ratingArguments) {
             r.isArgument = false;
         }
-        ruleArguments.Clear();
+        ratingArguments.Clear();
         ruleTarget.isTarget = false;
         ruleTarget = null;
         rule = Rule.None;

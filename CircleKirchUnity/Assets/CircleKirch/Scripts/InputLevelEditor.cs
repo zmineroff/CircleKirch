@@ -32,7 +32,14 @@ public class InputLevelEditor : MonoBehaviour {
 				if (ratingHit != null) {
 					ratingHit.known = !ratingHit.known;
 				}
-			}
+
+                // Clicked wire
+                Wire wireHit = objectHit.GetComponent<Wire>();
+                if (wireHit != null) {
+                    Debug.Log("Wire clicked");
+                }
+
+            }
 		}
 
 		// Dragging wire
