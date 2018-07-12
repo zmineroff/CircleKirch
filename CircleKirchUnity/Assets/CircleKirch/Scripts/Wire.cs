@@ -7,7 +7,7 @@ public class Wire : MonoBehaviour {
 	public Terminal terminalA;
 	public Terminal terminalB;
 
-    public float lineWidth = 0.1F;
+    public float lineWidth;
 
     public bool isArgument = false;
 

@@ -13,10 +13,16 @@ public class InputPlay : MonoBehaviour {
     public List<Rating> ratingArguments = new List<Rating>();
     public List<Wire> wireArguments = new List<Wire>();
 
+    public GameObject rulesPanel;
+
     private bool doneSelectingArguments = false;
 
     private int currentStep = 0;
 
+    void Awake() {
+        rulesPanel = GetComponent<InputManager>().playCanvas.transform.Find("LawsPanel").gameObject;
+        rulesPanel.SetActive(false);
+    }
 
     // Use this for initialization
     void Start() {
@@ -65,7 +71,10 @@ public class InputPlay : MonoBehaviour {
                         break;
                 }
 
-                ++currentStep;
+                currentStep = currentStep + 1 % interactionSteps.Count;
+                
+
+                
             }
 
             switch (rule) {
@@ -90,13 +99,11 @@ public class InputPlay : MonoBehaviour {
     }
 
     IEnumerator SelectRule() {
-        // Rule rule;
-
-        // have rule selection panel initially disabled
-        // endable it here
+        rulesPanel.SetActive(true);
         while (rule == Rule.None) {
             yield return new WaitForEndOfFrame();
         }
+        rulesPanel.SetActive(false);
         yield break;
     }
 
@@ -200,7 +207,6 @@ public class InputPlay : MonoBehaviour {
     }
 
 
-    // These should take in actual arguments
     void OhmsLaw(Rating ruleTarget, List<Rating> ratingArguments) {
         Debug.Log("Executing Ohms");
         if (ratingArguments.Count != 2) {
@@ -233,6 +239,7 @@ public class InputPlay : MonoBehaviour {
         // Should wires be arguments too?
 
     }
+
 
     void KCL(Rating ruleTarget, List<Rating> ratingArguments) {
         Debug.Log("Executing KCL");
