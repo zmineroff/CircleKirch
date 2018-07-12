@@ -9,6 +9,8 @@ public class Wire : MonoBehaviour {
 
     public float lineWidth = 0.1F;
 
+    public bool isArgument = false;
+
 	private LineRenderer line;
     private BoxCollider2D lineCollider;
 

@@ -11,6 +11,7 @@ public class InputPlay : MonoBehaviour {
     public Rule rule;
     public Rating ruleTarget;
     public List<Rating> ratingArguments = new List<Rating>();
+    public List<Wire> wireArguments = new List<Wire>();
 
     private bool doneSelectingArguments = false;
 
@@ -138,6 +139,7 @@ public class InputPlay : MonoBehaviour {
                 if (hit.collider != null) {
                     Transform objectHit = hit.transform;
 
+                    // Rating
                     Rating ratingHit = objectHit.GetComponent<Rating>();
                     if (ratingHit != null) {
                         if (ratingHit.isTarget) {
@@ -152,6 +154,20 @@ public class InputPlay : MonoBehaviour {
                                 ratingHit.isArgument = true;
                                 Debug.Log("Argument Set");
                             }
+                        }
+                    }
+
+                    // Wire
+                    Wire wireHit = objectHit.GetComponent<Wire>();
+                    if (wireHit != null) {
+                        if (wireHit.isArgument) {
+                            wireArguments.Remove(wireHit);
+                            wireHit.isArgument = false;
+                            Debug.Log("Wire argument Unset");
+                        } else {
+                            wireArguments.Add(wireHit);
+                            wireHit.isArgument = true;
+                            Debug.Log("Wire argument Set");
                         }
                     }
                 }
@@ -232,6 +248,12 @@ public class InputPlay : MonoBehaviour {
             r.isArgument = false;
         }
         ratingArguments.Clear();
+
+        foreach (Wire w in wireArguments) {
+            w.isArgument = false;
+        }
+        wireArguments.Clear();
+
         ruleTarget.isTarget = false;
         ruleTarget = null;
         rule = Rule.None;
