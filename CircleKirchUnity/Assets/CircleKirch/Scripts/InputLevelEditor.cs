@@ -25,10 +25,7 @@ public class InputLevelEditor : MonoBehaviour {
                 Terminal terminalHit = objectHit.GetComponent<Terminal>();
                 if (terminalHit != null) {
                     bool eltIsJunction = terminalHit.circuitElement.circuitElementType == CircuitElement.CircuitElementType.Junction;
-                    if (eltIsJunction) {
-                        dragTarget = terminalHit;
-                        draggingWire = true;
-                    } else if (terminalHit.wires.Count == 0) {
+                    if (eltIsJunction || terminalHit.wires.Count == 0) {
                         dragTarget = terminalHit;
                         draggingWire = true;
                     } else {
@@ -61,14 +58,7 @@ public class InputLevelEditor : MonoBehaviour {
                 if (terminalHit != null) {
                     if (dragTarget.transform.parent != terminalHit.transform.parent) {
                         bool eltIsJunction = terminalHit.circuitElement.circuitElementType == CircuitElement.CircuitElementType.Junction;
-                        if (eltIsJunction) {
-                            Debug.Log("Good connection");
-                            Wire newWire = GameObject.Instantiate(wirePrefab).GetComponent<Wire>();
-                            newWire.terminalA = dragTarget;
-                            newWire.terminalB = terminalHit;
-                            dragTarget.wires.Add(newWire);
-                            terminalHit.wires.Add(newWire);
-                        } else if (terminalHit.wires.Count == 0) {
+                        if (eltIsJunction || terminalHit.wires.Count == 0) {
                             Debug.Log("Good connection");
                             Wire newWire = GameObject.Instantiate(wirePrefab).GetComponent<Wire>();
                             newWire.terminalA = dragTarget;
@@ -79,15 +69,17 @@ public class InputLevelEditor : MonoBehaviour {
                             Debug.Log("Non-junction terminals can only have one wire");
                         }
                     } else {
-                        Debug.Log("Illegal connection");
+                        Debug.Log("Cannot connect an element to itself");
                     }
                 } else {
                     Debug.Log("No connection");
                 }
-				
-                draggingWire = false;
-                dragTarget = null;
-            }
+            } else {
+                Debug.Log("No connection");
+			}
+
+            draggingWire = false;
+            dragTarget = null;
         }
     }
 }
