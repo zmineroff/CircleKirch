@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Terminal : MonoBehaviour {
-
-	public List<Wire> wires = new List<Wire>();
+	
+    public List<Wire> wires = new List<Wire>();
 	public CircuitElement circuitElement;
 
 	// Use this for initialization

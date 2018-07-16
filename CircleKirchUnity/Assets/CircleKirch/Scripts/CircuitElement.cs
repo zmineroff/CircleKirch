@@ -5,6 +5,8 @@ using UnityEngine;
 public class CircuitElement : MonoBehaviour {
 
 	public List<Terminal> terminals = new List<Terminal> ();
+	public enum CircuitElementType {Battery, Resistor, Junction};
+	public CircuitElementType circuitElementType;
 	public Rating voltage;
 	public Rating current;
 	public Rating resistance;
@@ -17,7 +19,7 @@ public class CircuitElement : MonoBehaviour {
 			t.circuitElement = this;
 		}
 
-		// add references to ratings (probably a better way to do this)
+		// add references to ratings
 		var ratings = transform.GetComponentsInChildren<Rating> ();
 		foreach(Rating r in ratings) {
 			r.circuitElement = this;

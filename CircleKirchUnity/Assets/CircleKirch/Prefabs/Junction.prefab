@@ -156,6 +156,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terminals: []
+  circuitElementType: 2
+  voltage: {fileID: 0}
+  current: {fileID: 0}
+  resistance: {fileID: 0}
 --- !u!114 &114103366402298150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cca78dba0fe3c8429c76f477a6931c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wires: []
+  circuitElement: {fileID: 0}
 --- !u!114 &114262675440909022
 MonoBehaviour:
   m_ObjectHideFlags: 1

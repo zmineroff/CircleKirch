@@ -2510,6 +2510,8 @@ MonoBehaviour:
   rule: 0
   ruleTarget: {fileID: 0}
   ratingArguments: []
+  wireArguments: []
+  rulesPanel: {fileID: 0}
 --- !u!114 &1499178430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3200,16 +3202,6 @@ Prefab:
     - target: {fileID: 4584910313875814, guid: 287cb28799de6db46adf5ffbf2566511, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114577436019558174, guid: 287cb28799de6db46adf5ffbf2566511,
-        type: 2}
-      propertyPath: known
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114410827382320440, guid: 287cb28799de6db46adf5ffbf2566511,
-        type: 2}
-      propertyPath: known
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 287cb28799de6db46adf5ffbf2566511, type: 2}
