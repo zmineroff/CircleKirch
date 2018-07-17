@@ -40,6 +40,10 @@ public class InputManager : MonoBehaviour {
 	}
 
 	void enterPlayMode () {
+		// can have a check board validity thing here
+		// if not valid, stay in edit mode
+		// e.g., all terminals only have one wire except junctions
+
 		mode = Mode.Play;
 		Debug.Log("Play mode");
 		this.GetComponent<InputPlay>().enabled = true;

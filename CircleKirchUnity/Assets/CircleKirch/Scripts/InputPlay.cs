@@ -254,45 +254,64 @@ public class InputPlay : MonoBehaviour {
             }
         }
 
-        // Check that all wires are connected to some partent with ratingArgument
-        // (might not be nnecessary to do this; can just search for cycle)
-        foreach (Wire w in wireArguments) {
-            bool wireIsValid = w.terminalA.circuitElement.voltage.isArgument || w.terminalB.circuitElement.voltage.isArgument;
+        // Check Kirchhoff Loop
+        CircuitElement currentElt = ruleTarget.circuitElement;
+        Terminal currentTerminal = currentElt.terminals[0];
+        Wire currentWire = currentTerminal.wires[0];
+        if (!currentWire.isArgument) {
+            Debug.Log("Invalid loop. Wire not set as argument.");
+            return;
+        }
 
-            if (!wireIsValid) {
-                Debug.Log("All wires must be connected to a circuit element with a rating argument");
+        if (!currentElt.voltage.isArgument && currentElt.voltage != ruleTarget) {
+            Debug.Log("Invalid loop. Voltage not set as argument.");
+            return;
+        }
+        while (currentTerminal != ruleTarget.circuitElement.terminals[1]) {
+            if (currentTerminal == currentWire.terminalA) {
+                currentTerminal = currentWire.terminalA;
+            } else {
+                currentTerminal = currentWire.terminalB;
+            }
+
+            currentElt = currentTerminal.circuitElement;
+            bool eltIsJunction = currentElt.circuitElementType == CircuitElement.CircuitElementType.Junction;
+            if (eltIsJunction) {
+                int numWireArgsInTerminal = 0;
+                Wire nextWire = null;
+                foreach (Wire w in currentTerminal.wires) {
+                    if (w != currentWire && w.isArgument) {
+                        numWireArgsInTerminal++;
+                        nextWire = w;
+                    }
+                }
+                currentWire = nextWire;
+                if (numWireArgsInTerminal != 1) {
+                    Debug.Log("Invalid loop. Junction should have only 2 wire arguments");
+                    return;
+                }
+            } else {
+                foreach (Terminal t in currentElt.terminals) {
+                    if (t.wires[0] != currentWire) {
+                        currentWire = t.wires[0];
+                        currentTerminal = t;
+                    }
+                }
+            }
+
+            if (!currentWire.isArgument) {
+                Debug.Log("Invalid loop. Wire not set as argument.");
+                return;
+            }
+
+            if (!currentElt.voltage.isArgument && currentElt.voltage != ruleTarget) {
+                Debug.Log("Invalid loop. Voltage not set as argument.");
                 return;
             }
         }
 
-        // NOTE: only one wire can ever connect to a terminal (except for a junction)
-        // i.e., a terminal can only have one wire
-        // only a junction can have more
-        // to do: change Terminal script so it only has one wire (not a list of wires)
-        //        make junction its own thing
-        //        edit this KVL function to use this setup instead of getting it from lists
-
-
-        // Check that arguments connect in a valid cycle
-        //start at target elt terminal 1
-        //go one direction
-        //mark wire as visited
-        //at next terminal, there should only be one non-visited wire arg
-        //go to next terminal along that wire
-        //mark wire as visited
-        //go until you come to target elt terminal 2
-        //if there are unvisited wires/rating arguments, then its invalid
-        Terminal currentTerminal = ruleTarget.circuitElement.terminals[0];
-        //Wire currentWire = currentTerminal.wires[0];
-        List<bool> visitedWire = new List<bool>(new bool[wireArguments.Count]);
-        while (true) {
-            
-
-            //note: need separate logic if get to junction
-        }
-
-
-
+        Debug.Log("Rating revealed!");
+        ruleTarget.known = true;
     }
 
 
