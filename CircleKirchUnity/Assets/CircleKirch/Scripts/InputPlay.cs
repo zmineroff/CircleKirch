@@ -230,12 +230,6 @@ public class InputPlay : MonoBehaviour {
     void KVL(Rating ruleTarget, List<Rating> ratingArguments, List<Wire> wireArguments) {
         Debug.Log("Executing KVL");
 
-        // Check if loop is valid
-        // Starts with target
-        // There is a wire connecting all
-
-        // You need exactly the right amount of arguments
-
         // Check that target is voltage
         if (ruleTarget.ratingType != Rating.RatingType.Voltage) {
             Debug.Log("Target must be voltage");
@@ -262,21 +256,31 @@ public class InputPlay : MonoBehaviour {
             Debug.Log("Invalid loop. Wire not set as argument.");
             return;
         }
-
-        if (!currentElt.voltage.isArgument && currentElt.voltage != ruleTarget) {
-            Debug.Log("Invalid loop. Voltage not set as argument.");
-            return;
-        }
+        int iternum = 0;
         while (currentTerminal != ruleTarget.circuitElement.terminals[1]) {
+            Debug.Log(iternum);
+            if (iternum > 1000) {
+                Debug.Log("Loop cap maxed reached");
+                return;
+            }
+            iternum++;
+            
             if (currentTerminal == currentWire.terminalA) {
-                currentTerminal = currentWire.terminalA;
-            } else {
                 currentTerminal = currentWire.terminalB;
+            } else {
+                currentTerminal = currentWire.terminalA;
+            }
+
+            if (currentTerminal == ruleTarget.circuitElement.terminals[1]) {
+                Debug.Log("Rating revealed!");
+                ruleTarget.known = true;
+                return;
             }
 
             currentElt = currentTerminal.circuitElement;
             bool eltIsJunction = currentElt.circuitElementType == CircuitElement.CircuitElementType.Junction;
             if (eltIsJunction) {
+                Debug.Log("Junction");
                 int numWireArgsInTerminal = 0;
                 Wire nextWire = null;
                 foreach (Wire w in currentTerminal.wires) {
@@ -291,12 +295,29 @@ public class InputPlay : MonoBehaviour {
                     return;
                 }
             } else {
+                if (currentElt.circuitElementType == CircuitElement.CircuitElementType.Battery) {
+                    Debug.Log("Battery");
+                }
+                if (currentElt.circuitElementType == CircuitElement.CircuitElementType.Resistor) {
+                    Debug.Log("Resistor");
+                }
+                Wire nextWire = null;
                 foreach (Terminal t in currentElt.terminals) {
+                    if (t.wires.Count==0) {
+                        Debug.Log("No wires on terminal");
+                        return;
+                    }
                     if (t.wires[0] != currentWire) {
-                        currentWire = t.wires[0];
+                        nextWire = t.wires[0];
                         currentTerminal = t;
                     }
                 }
+                currentWire = nextWire;
+            }
+
+            if (currentWire == null) {
+                Debug.Log("Bad");
+                return;
             }
 
             if (!currentWire.isArgument) {
@@ -304,7 +325,7 @@ public class InputPlay : MonoBehaviour {
                 return;
             }
 
-            if (!currentElt.voltage.isArgument && currentElt.voltage != ruleTarget) {
+            if (!eltIsJunction && !currentElt.voltage.isArgument && currentElt.voltage != ruleTarget) {
                 Debug.Log("Invalid loop. Voltage not set as argument.");
                 return;
             }
