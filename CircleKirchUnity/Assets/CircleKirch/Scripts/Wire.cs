@@ -45,7 +45,7 @@ public class Wire : MonoBehaviour {
 
 		//Update collider
         float lineLength = Vector2.Distance(terminalA.transform.position, terminalB.transform.position);
-        lineCollider.size = new Vector2(lineLength, lineWidth);
+        lineCollider.size = new Vector2(lineLength, lineWidth*6);
         Vector2 midPoint = (terminalA.transform.position + terminalB.transform.position) / 2;
         lineCollider.transform.position = midPoint;
 
@@ -53,5 +53,11 @@ public class Wire : MonoBehaviour {
         angle *= Mathf.Rad2Deg;
         // angle *= -1;
         lineCollider.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+		if (this.isArgument) {
+			line.material.color = Color.blue;
+		} else {
+            line.material.color = Color.black;
+		}
 	}
 }

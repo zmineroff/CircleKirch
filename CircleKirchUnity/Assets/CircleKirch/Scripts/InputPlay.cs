@@ -337,6 +337,7 @@ public class InputPlay : MonoBehaviour {
 
 
     void KCL(Rating ruleTarget, List<Rating> ratingArguments, List<Wire> wireArguments) {
+        // NOTE: currently not chekcing if all args are actually used (if there are extra args)
         Debug.Log("Executing KCL");
 
         // Check that target is current
