@@ -338,6 +338,77 @@ public class InputPlay : MonoBehaviour {
 
     void KCL(Rating ruleTarget, List<Rating> ratingArguments, List<Wire> wireArguments) {
         Debug.Log("Executing KCL");
+
+        // Check that target is current
+        if (ruleTarget.ratingType != Rating.RatingType.Current) {
+            Debug.Log("Target must be current");
+        }
+
+        // Check that only current are selected
+        foreach (Rating r in ratingArguments) {
+            if (r.ratingType != Rating.RatingType.Current) {
+                Debug.Log("All rating arguments must be current ratings");
+                return;
+            }
+
+            if (!r.known) {
+                Debug.Log("All rating arguments must be known");
+                return;
+            }
+        }
+
+        // Check Kirchhoff Junction
+        CircuitElement currentElt = ruleTarget.circuitElement;
+        Wire targetWire=null;
+        Terminal junctionTerminal=null;
+        foreach (Terminal t in currentElt.terminals) {
+            if (t.wires.Count==1 && t.wires[0].isArgument) {
+                if (t.wires[0].terminalA.circuitElement.circuitElementType == CircuitElement.CircuitElementType.Junction) {
+                    junctionTerminal = t.wires[0].terminalA;
+                    targetWire = t.wires[0];
+                } else if (t.wires[0].terminalB.circuitElement.circuitElementType == CircuitElement.CircuitElementType.Junction) {
+                    junctionTerminal = t.wires[0].terminalB;
+                    targetWire = t.wires[0];
+                }
+            }
+        }
+
+        if (targetWire==null) {
+            Debug.Log("Target does not connnect to junction");
+            return;
+        }
+
+        foreach (Wire w in junctionTerminal.wires) {
+            if (w == targetWire) {
+                continue;
+            }
+
+            if (!w.isArgument) {
+                Debug.Log("All wires in the junction must be arguments");
+                return;
+            }
+
+            Terminal argTerminal;
+            if (w.terminalA==junctionTerminal) {
+                argTerminal = w.terminalB;
+            } else {
+                argTerminal = w.terminalA;
+            }
+
+            CircuitElement argElt = argTerminal.circuitElement;
+            if (argElt.circuitElementType==CircuitElement.CircuitElementType.Junction) {
+                Debug.Log("Target junction should not connect to a junction");
+                return;
+            }
+
+            if (!argElt.current.isArgument) {
+                Debug.Log("Target junction not connected to an ");
+                return;
+            }
+        }
+
+        Debug.Log("Rating revealed!");
+        ruleTarget.known = true;
     }
 
     public void setDoneSelectingArguments() {
