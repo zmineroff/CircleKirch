@@ -258,7 +258,7 @@ public class InputPlay : MonoBehaviour {
         }
         int iternum = 0;
         while (currentTerminal != ruleTarget.circuitElement.terminals[1]) {
-            Debug.Log(iternum);
+            //Debug.Log(iternum);
             if (iternum > 1000) {
                 Debug.Log("Loop cap maxed reached");
                 return;
